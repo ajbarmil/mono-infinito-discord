@@ -7,7 +7,6 @@ token = open("token.txt","r").read()
 def is_url(url):
     return urllib.parse.urlparse(url).scheme != ""
 
-
 parser = argparse.ArgumentParser(description='Ejecuta el bot de mono infinito.')
 
 parser.add_argument('-p', action='store', required=False, type=str, default='!',
@@ -25,56 +24,64 @@ block = {}
 
 @client.event
 async def on_ready():
+    if(not os.path.exists("./data/")):
+        os.mkdir("./data/")
     print(f"Sesión iniciada como {client.user}.")
 
 @client.command()
 async def construct(ctx, *args):
-    blockbool = False
-    if(ctx.author.id in block.keys()):
-        blockbool = block[ctx.author.id]
-
-    if(blockbool):
-        await ctx.send(f"<@{ctx.author.id}> Ya estoy construyendo tu modelo. Si quieres reconstruirlo, tendrás que esperar a que termine.")
+    if("-h" in args):
+        await ctx.send(f"<@{ctx.author.id}> Uso del comando construct: construct [-j] [-l LIMIT].")
     else:
-        block[ctx.author.id] = True
-        joining = "\n\n"
-        lim = 1000
-        for i in range(len(args)):
-            if(args[i] == "-j"):
-                joining = "\n"
-            elif(args[i] == "-l"):
-                try:
-                    lim = int(args[i+1])
-                except:
-                    pass
+        blockbool = False
+        if(ctx.author.id in block.keys()):
+            blockbool = block[ctx.author.id]
 
-        await ctx.send(f"<@{ctx.author.id}> Preparando tu modelo...")
+        if(blockbool):
+            await ctx.send(f"<@{ctx.author.id}> Ya estoy construyendo tu modelo. Si quieres reconstruirlo, tendrás que esperar a que termine.")
+        else:
+            allgood = True
+            block[ctx.author.id] = True
+            joining = "\n\n"
+            lim = 10000
+            for i in range(len(args)):
+                if(args[i] == "-j"):
+                    joining = "\n"
+                elif(args[i] == "-l"):
+                    try:
+                        lim = int(args[i+1])
+                    except:
+                        await ctx.send(f"<@{ctx.author.id}> Uso del comando construct: construct [-j] [-l LIMIT].")
+                        allgood = False
+            if(allgood):
+                await ctx.send(f"<@{ctx.author.id}> Preparando tu modelo...")
 
-        if(not os.path.exists(f"./data/{ctx.guild.id}/")):
-            os.mkdir(f"./data/{ctx.guild.id}/")
+                if(not os.path.exists(f"./data/{ctx.guild.id}/")):
+                    os.mkdir(f"./data/{ctx.guild.id}/")
 
-        mess = open(f"./data/{ctx.guild.id}/{ctx.author.display_name}.txt","w",encoding="utf8") # create & clean
-        mess.close()
-        mess = open(f"./data/{ctx.guild.id}/{ctx.author.display_name}.txt", "a",encoding="utf8")
-        for channel in ctx.guild.text_channels:
-            try:
-                async for message in channel.history(limit=lim):
-                    if (message.author == ctx.author and not is_url(message.content.replace(ctx.author.display_name + ": ", "")) and str(message.content.replace(ctx.author.display_name + ": ", "")) != ""):
-                        mess.write(message.content.replace(ctx.author.display_name + ": ", "") + joining)
-            except:
-                pass
-        mess.close()
+                mess = open(f"./data/{ctx.guild.id}/{ctx.author.display_name.replace(' ', '')}.txt","w",encoding="utf8") # create & clean
+                mess.close()
+                mess = open(f"./data/{ctx.guild.id}/{ctx.author.display_name.replace(' ', '')}.txt", "a",encoding="utf8")
+                for channel in ctx.guild.text_channels:
+                    try:
+                        async for message in channel.history(limit=lim):
+                            if (message.author == ctx.author and not is_url(message.content.replace(ctx.author.display_name + ": ", "")) and str(message.content.replace(ctx.author.display_name + ": ", "")) != ""):
+                                mess.write(message.content.replace(ctx.author.display_name + ": ", "") + joining)
+                    except:
+                        pass
+                mess.close()
 
-        m.compute_lm([f"./data/{ctx.guild.id}/{ctx.author.display_name}.txt"], f"{ctx.author.display_name}", 5)
-        m.save_lm(f"./data/{ctx.guild.id}/{ctx.author.display_name}.lm")
+                m.compute_lm([f"./data/{ctx.guild.id}/{ctx.author.display_name.replace(' ', '')}.txt"], f"{ctx.author.display_name}", 5)
+                m.save_lm(f"./data/{ctx.guild.id}/{ctx.author.display_name.replace(' ', '')}.lm")
 
-        block[ctx.author.id] = False
-        await ctx.send(f'<@{ctx.author.id}> Se ha generado tu modelo, con nombre "{ctx.author.display_name}".')
+                await ctx.send(f'<@{ctx.author.id}> Se ha generado tu modelo, con nombre "{ctx.author.display_name.replace(" ", "")}".')
+
+            block[ctx.author.id] = False
 
 @client.command()
 async def talk(ctx, *args):
-    if(len(args)!=1 and len(args)!=3):
-        await ctx.send(f"<@{ctx.author.id}> Uso del comando talk: talk NOMBRE_MODELO [-n N-GRAMAS].")
+    if((len(args)!=1 and len(args)!=3) or "-h" in args):
+        await ctx.send(f"<@{ctx.author.id}> Uso del comando talk: talk MODELNAME [-n N].")
     else:
         nn = 3
         allgood = True
