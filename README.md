@@ -1,7 +1,7 @@
 # mono-infinito-discord
 Bot de Discord que trata de imitar la forma de hablar de los usuarios utilizando los contenidos de la práctica propuesta en la asignatura de Sistemas de Almacenamiento y Recuperación de Información en la UPV. El programa recopila mensajes de usuarios para crear modelos de lenguaje a partir de los cuales obtener mensajes originales. Cabe destacar que las colecciones de mensajes utilizados para generar los modelos de lenguaje están **separados por servidores**, por lo que el bot no tiene la capacidad de obtener un modelo utilizando los mensajes del mismo usuario en diferentes servidores.
 
-## Instrucciones de instalación:
+## Instrucciones de instalación
 1. Crear y registrar un bot en https://discord.com/developers/applications y obtener su token.
 2. Introducir dicha token en el archivo token.txt incluido en el repositorio. En este archivo solo debe estar presente la token sin ningún otro tipo de añadido.
 3. Añadir el bot a los servidores de Discord donde se quiera utilizar. NOTA: el bot debe tener permiso para leer el historial de mensajes de los canales de texto en los que pueda recopilar mensajes.
