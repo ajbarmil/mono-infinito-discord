@@ -32,3 +32,8 @@ El comando posee dos argumentos opcionales:
 Una vez el bot haya terminado de construir un modelo con el comando construct, aportará el nombre del modelo al usuario que lo ha solicitado. Dicho nombre ha de insertarse en el lugar de MODELNAME.
 
 El comando posee un único argumento opcional. N es un número entero del 2 al 5 (con valor predeterminado de 3) que es proporcional a la coherencia de los mensajes. No obstante, un valor de N demasiado elevado para un modelo de lenguaje que ha sido entrenado con muy pocos mensajes (por ejemplo, un usuario que solo haya enviado 1000 mensajes de texto en un servidor) puede suponer que las frases generadas sean demasiado similares o directamente idénticas a los mensajes originales del propio usuario. En definitiva, cuantos menos mensajes de texto haya enviado el usuario al que se quiere imitar, menor debe ser la N.
+
+## Consejos
++ Recomiendo empezar generando modelos pequeños, como por ejemplo usando el LIMIT predeterminado. Para usar estos modelos pequeños, recomiendo usar una N con valor de 2.
++ Cuando ya se haya visto cómo se usa el bot, en caso de que un usuario tenga muchos mensajes de texto, es ideal generar un modelo con un LIMIT muy grande (como por ejemplo 1000000). El bot tarda mucho tiempo en generar estos modelos, pero los resultados al usar el comando !talk suelen ser mucho mejores de esta forma.
++ Es recomendable dedicar un tiempo a determinar a qué canales de texto tiene acceso el bot y a qué canales no. Canales dedicados a insertar comandos de otros bots o canales con mensajes privados que no debería leer cualquier persona que pueda utilizar el bot en un servidor no son recomendables.
