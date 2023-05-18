@@ -4,7 +4,7 @@ Bot de Discord que trata de imitar la forma de hablar de los usuarios utilizando
 ## Instrucciones de instalación
 1. Crear y registrar un bot en https://discord.com/developers/applications y obtener su token. (IMPORTANTE: los intents "Server Members Intent" y "Message Content Intent" deben estar activados).
 2. Introducir dicha token en el archivo token.txt incluido en el repositorio. En este archivo solo debe estar presente la token sin ningún otro tipo de añadido.
-3. Añadir el bot a los servidores de Discord donde se quiera utilizar. NOTA: el bot debe tener permiso para leer el historial de mensajes de los canales de texto en los que pueda recopilar mensajes.
+3. Añadir el bot a los servidores de Discord donde se quiera utilizar. Para ello, se debe entrar en https://discord.com/api/oauth2/authorize?client_id=APPLICATION_ID&permissions=0&scope=bot%20applications.commands donde hay que sustituir "APPLICATION_ID" por la ID del bot creado. NOTA: el bot debe tener permiso para leer el historial de mensajes de los canales de texto en los que pueda recopilar mensajes, además de permisos de lectura y escritura de texto en los canales donde se quiera usar sus comandos.
 
 ## Ejecución
 ```
