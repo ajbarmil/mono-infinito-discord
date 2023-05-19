@@ -29,7 +29,7 @@ El comando posee dos argumentos opcionales:
 ```
 !talk MODELNAME [-n N]
 ```
-Una vez el bot haya terminado de construir un modelo con el comando construct, aportará el nombre del modelo al usuario que lo ha solicitado. Dicho nombre ha de insertarse en el lugar de MODELNAME.
+Una vez el bot haya terminado de construir un modelo con el comando construct, aportará el nombre del modelo al usuario que lo ha solicitado. Dicho nombre ha de insertarse en el lugar de MODELNAME. A diferencia del comando construct, cualquier usuario puede usar el comando talk con el modelo de cualquier otro usuario.
 
 El comando posee un único argumento opcional. N es un número entero del 2 al 5 (con valor predeterminado de 3) que es proporcional a la coherencia de los mensajes. No obstante, un valor de N demasiado elevado para un modelo de lenguaje que ha sido entrenado con muy pocos mensajes (por ejemplo, un usuario que solo haya enviado 1000 mensajes de texto en un servidor) puede suponer que las frases generadas sean demasiado similares o directamente idénticas a los mensajes originales del propio usuario. En definitiva, cuantos menos mensajes de texto haya enviado el usuario al que se quiere imitar, menor debe ser la N.
 
